@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<package>
+  <metadata>
+    <id>kenboi.data</id>
+    <version>1.0.1</version>
+    <title>kenboi.data</title>
+    <authors>kenboi</authors>
+    <owners>kenboi</owners>
+    <license type="expression">MIT</license>
+    <projectUrl>https://github.com/kennkenboi/kenboi.data</projectUrl>
+    <requireLicenseAcceptance>false</requireLicenseAcceptance>
+    <description>
+      Mysql and HTTP Abstraction
+    </description>
+    <releaseNotes>Initial Release.</releaseNotes>
+    <copyright>© 2019 Kenn Kenboi</copyright>
+    <tags>
+      C# Mysql RestSharp
+    </tags>
+    <dependencies>
+      <dependency id="libphonenumber-csharp" version=">=8.10.5" />
+      <dependency id="MySql.Data" version=">=8.0.15" />
+      <dependency id="Newtonsoft.Json" version=">=12.0.1" />
+      <dependency id="RestSharp" version=">=106.6.7" />
+    </dependencies>
+    <summary></summary>
+  </metadata>
+  <files>
+    <file src="bin\Debug\Kenboi.Data.dll" target="lib" />
+  </files>
+</package>
