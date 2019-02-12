@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Data;
 using System.Dynamic;
 using System.Net;
+using System.Threading.Tasks;
 using Kenboi.Data;
 using Newtonsoft.Json;
 using RestSharp.Serialization.Json;
@@ -12,51 +13,49 @@ namespace Kenboi.Data
 {
     public abstract class BaseRepository
     {
-        public string Username { get; set; }
-        public string Server { get; set; }
-        public string Password { get; set; }
-        public string Database { get; set; }
-
-
-        protected MyResponse FuncSendRequest<T>(T param, string route, Method method, bool isList = false, Dictionary<string, string> headers = null)
+        protected Task<MyResponse> FuncSendRequest<T>(T param, string route, Method method, bool isList = false, Dictionary<string, string> headers = null)
         {
-            dynamic response = null;
-            HttpStatusCode statusCode = HttpStatusCode.Ambiguous;
-            bool success = true;
-
-            void OnSuccess(string val, HttpStatusCode code)
+           return Task.Run(() =>
             {
-                statusCode = code;
-                if (isList)
+                dynamic response = null;
+                HttpStatusCode statusCode = HttpStatusCode.Ambiguous;
+                bool success = true;
+
+                void OnSuccess(string val, HttpStatusCode code)
                 {
-                    response = JsonConvert.DeserializeObject<List<ExpandoObject>>(val);
-                    return;
+                    statusCode = code;
+                    if (isList)
+                    {
+                        response = JsonConvert.DeserializeObject<List<ExpandoObject>>(val);
+                        return;
+                    }
+
+                    response = JsonConvert.DeserializeObject<ExpandoObject>(val);
                 }
-                response = JsonConvert.DeserializeObject<ExpandoObject>(val);
-            }
 
-            void OnFail(string val, HttpStatusCode code)
-            {
-                response = val;
-                statusCode = code;
-                success = false;
-            }
+                void OnFail(string val, HttpStatusCode code)
+                {
+                    response = val;
+                    statusCode = code;
+                    success = false;
+                }
 
-            GetApiInstance().SendRequest(param, route, method, OnSuccess, OnFail, headers);
+                GetApiInstance().SendRequest(param, route, method, OnSuccess, OnFail, headers);
 
-            return new MyResponse { Response = response, HttpStatusCode = statusCode, Success = success };
+                return new MyResponse {Response = response, HttpStatusCode = statusCode, Success = success};
+            });
         }
 
         public abstract MyApi GetApiInstance();
 
-        protected MyResponse ExecuteSelect(string query, bool dataTable = false, bool withChooseColumn = true)
+        protected Task<MyResponse> ExecuteSelect(string query, bool dataTable = false, bool withChooseColumn = true)
         {
-            return dataTable ? BuildOurSql().ExecuteSelectGetDataTable(query, withChooseColumn) : BuildOurSql().ExecuteSelect(query);
+            return Task.Run(() => dataTable ? BuildOurSql().ExecuteSelectGetDataTable(query, withChooseColumn) : BuildOurSql().ExecuteSelect(query));
         }
 
-        protected MyResponse ExecuteNonQuery(string query, bool isInsert = false)
+        protected Task<MyResponse> ExecuteNonQuery(string query, bool isInsert = false)
         {
-            return  BuildOurSql().ExecuteNonQuery(query, isInsert);
+            return Task.Run((() => BuildOurSql().ExecuteNonQuery(query, isInsert)));
         }
 
         public abstract OurSql BuildOurSql();
