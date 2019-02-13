@@ -23,7 +23,7 @@ namespace Kenboi.Data
         private string _accessToken;
 
 
-        protected MyApi(string baseUrl = null, string accessToken = null)
+        public MyApi(string baseUrl = null, string accessToken = null)
         {
             ServicePointManager.SecurityProtocol = SecurityProtocolType.Tls12 | SecurityProtocolType.Tls11 | SecurityProtocolType.Tls;
 

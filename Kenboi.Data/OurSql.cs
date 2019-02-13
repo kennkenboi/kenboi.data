@@ -19,9 +19,8 @@ namespace Kenboi.Data
 
         public Action<string> OnMySqlErrorAction {private get; set; }
 
-        public OurSql(string username, string server, string password, string database)
+        public OurSql(string connStr)
         {
-            string connStr = $"server={server};user={username};database={database};port=3306;password={password}";
             _connection = new MySqlConnection(connStr);
         }
 

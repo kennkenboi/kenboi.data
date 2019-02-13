@@ -77,6 +77,7 @@
     <Compile Include="Utils\MyValidator.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Kenboi.Data.nuspec" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup />
