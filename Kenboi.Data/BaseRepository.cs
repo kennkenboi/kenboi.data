@@ -58,6 +58,16 @@ namespace Kenboi.Data
             return Task.Run((() => BuildOurSql().ExecuteNonQuery(query, isInsert)));
         }
 
+        protected MyResponse ExecuteSelectSync(string query, bool dataTable = false, bool withChooseColumn = true)
+        {
+            return  dataTable ? BuildOurSql().ExecuteSelectGetDataTable(query, withChooseColumn) : BuildOurSql().ExecuteSelect(query);
+        }
+
+        protected MyResponse ExecuteNonQuerySync(string query, bool isInsert = false)
+        {
+            return BuildOurSql().ExecuteNonQuery(query, isInsert);
+        }
+
         public abstract OurSql BuildOurSql();
 
         protected string BuildInsertQuery(Dictionary<string, string> data, string table)

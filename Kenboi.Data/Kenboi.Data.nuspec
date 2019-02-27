@@ -2,7 +2,7 @@
 <package>
   <metadata>
     <id>kenboi.data</id>
-    <version>1.0.5</version>
+    <version>1.0.10</version>
     <title>kenboi.data</title>
     <authors>kenboi</authors>
     <owners>kenboi</owners>
@@ -12,7 +12,7 @@
     <description>
       Mysql and HTTP Abstraction
     </description>
-    <releaseNotes>Modified Our SQL to accept a connection string instead of individual parameters</releaseNotes>
+    <releaseNotes>Added Sync methods for Execute select and ExecuteNonQuery</releaseNotes>
     <copyright>© 2019 Kenn Kenboi</copyright>
     <tags>
       C# Mysql RestSharp Kenboi Http

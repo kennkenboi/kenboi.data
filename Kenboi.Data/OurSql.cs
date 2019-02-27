@@ -1,12 +1,7 @@
-﻿using System;
+﻿using MySql.Data.MySqlClient;
+using System;
 using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Kenboi.Data;
-using Kenboi.Data.Utils;
-using MySql.Data.MySqlClient;
 
 namespace Kenboi.Data
 {
@@ -17,11 +12,13 @@ namespace Kenboi.Data
         private readonly MySqlConnection _connection;
         public string Error { get; set; }
 
-        public Action<string> OnMySqlErrorAction {private get; set; }
+        public Action<string> OnMySqlErrorAction { private get; set; }
 
         public OurSql(string connStr)
         {
             _connection = new MySqlConnection(connStr);
+            //MySqlCommand command = _connection.CreateCommand();
+            //command.CommandTimeout = int.MaxValue;
         }
 
         public MyResponse ExecuteSelect(string query)
@@ -41,7 +38,7 @@ namespace Kenboi.Data
                     Dictionary<string, string> val = new Dictionary<string, string>();
                     for (int i = 0; i < dataReader.FieldCount; i++)
                     {
-                        val.Add(dataReader.GetName(i), dataReader[i] + "");
+                        val[dataReader.GetName(i)]= $"{dataReader[i]}";
                     }
                     list.Add(val);
                 }
